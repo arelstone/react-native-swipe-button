@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<SwipeButton /> disabled should match snapshot 1`] = `ShallowWrapper {}`;
+
+exports[`<SwipeButton /> should match snapshot 1`] = `ShallowWrapper {}`;

@@ -1,0 +1,87 @@
+{
+  "name": "@arelstone/react-native-swipe-button",
+  "version": "0.0.1",
+  "description": "A UI component for displaying a button that can be swiped.",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "test": "jest --notify --detectOpenHandles --color --runInBand --forceExit"
+  },
+  "keywords": [
+    "react native",
+    "react native component",
+    "component",
+    "swipe",
+    "button",
+    "mobile",
+    "ios",
+    "android",
+    "ui",
+    "animation"
+  ],
+  "author": {
+    "name": "Carsten Daurehøj <arelstone>",
+    "email": "arelstone@gmail.com",
+    "url": "https://github.com/arelstone"
+  },
+  "homepage": "https://github.com/arelstone/react-native-swipe-button#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arelstone/react-native-swipe-button.git"
+  },
+  "bugs": {
+    "url": "https://github.com/arelstone/react-native-swipe-button/issues"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "@arelstone/eslint-config-react-native-typescript": "^1.0.3",
+    "@types/enzyme": "^3.10.5",
+    "@types/enzyme-adapter-react-16": "^1.0.6",
+    "@types/jest": "^26.0.8",
+    "@types/react": "^16.9.19",
+    "@types/react-native": "^0.61.14",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.2",
+    "eslint": "^6.8.0",
+    "husky": "^5.0.0-alpha.6",
+    "jest": "^25.1.0",
+    "react": "^16.9.21",
+    "react-dom": "^16.12.0",
+    "react-native": "^0.61.5",
+    "ts-jest": "^25.2.1",
+    "tslint": "^6.0.0",
+    "tslint-eslint-rules": "^5.4.0",
+    "tslint-react": "^4.2.0",
+    "typescript": "^3.8.2"
+  },
+  "jest": {
+    "preset": "react-native",
+    "transform": {
+      "^.+\\.js$": "<rootDir>/node_modules/react-native/jest/preprocessor.js",
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "globals": {
+      "ts-jest": {
+        "tsConfigFile": "tsconfig.jest.json"
+      }
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ],
+    "modulePaths": [
+      "<rootDir>"
+    ],
+    "setupFiles": [
+      "./jest.setup.js"
+    ],
+    "testPathIgnorePatterns": [
+      "<rootDir>/example/"
+    ]
+  }
+}
