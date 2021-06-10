@@ -1,12 +1,21 @@
-import React, { useState } from 'react';
-import { View, Dimensions, Animated, PanResponder, GestureResponderEvent, PanResponderGestureState, StyleSheet, StyleProp, ViewStyle } from 'react-native';
+import React, { useState } from "react";
+import {
+  Animated,
+  GestureResponderEvent,
+  LayoutChangeEvent,
+  PanResponder,
+  PanResponderGestureState,
+  StyleProp,
+  StyleSheet,
+  View,
+  ViewStyle,
+} from "react-native";
+import SwipeButtonCircle, { SwipeButtonCircleProps } from "./SwipeButtonCircle";
+import SwipeButtonText, { SwipeButtonTextProps } from "./SwipeButtonText";
 
-import SwipeButtonCircle, { SwipeButtonCircleProps } from './SwipeButtonCircle';
-import SwipeButtonText, { SwipeButtonTextProps } from './SwipeButtonText';
-
-type SwipeButtonPropsExtends = SwipeButtonCommonProps
-  & Omit<SwipeButtonCircleProps, 'opacity' | 'panHandlers' | 'translateX'>
-  & SwipeButtonTextProps
+export type SwipeButtonPropsExtends = SwipeButtonCommonProps &
+  Omit<SwipeButtonCircleProps, "opacity" | "panHandlers" | "translateX"> &
+  SwipeButtonTextProps;
 
 interface SwipeButtonProps extends SwipeButtonPropsExtends {
   /**
@@ -15,11 +24,11 @@ interface SwipeButtonProps extends SwipeButtonPropsExtends {
   onComplete: () => void;
 
   /**
-   * The with of the button
-   * 
-   * @default 90% of the screen width
+   * The width of the button
+   *
+   * @default 100% of the screen width
    */
-  width?: number;
+  width?: string;
 
   /**
    * If disabled is set to true it will not be possible to interace with the button
@@ -28,8 +37,8 @@ interface SwipeButtonProps extends SwipeButtonPropsExtends {
 
   /**
    * Indicates when `onComplete` should be invoked.
-   * 
-   * @default 70
+   *
+   * @default 100
    */
   completeThresholdPercentage?: number;
 
@@ -41,7 +50,7 @@ interface SwipeButtonProps extends SwipeButtonPropsExtends {
   /**
    * Callback that will be invoked when the suer ends swiping
    */
-  onSwipeEnd? : () => void;
+  onSwipeEnd?: () => void;
 
   /**
    * The styling of the underlay container
@@ -50,8 +59,13 @@ interface SwipeButtonProps extends SwipeButtonPropsExtends {
 
   /**
    * Styling for the outer container
-  */
+   */
   containerStyle?: StyleProp<ViewStyle>;
+
+  /**
+   * Styling for the icon container
+   */
+  iconContainerStyle?: StyleProp<ViewStyle>;
 }
 
 export type SwipeButtonCommonProps = {
@@ -63,140 +77,177 @@ export type SwipeButtonCommonProps = {
 
   /**
    * The border radius of the container and the Icon
-   * 
-   * @default (height / 2)
+   *
+   * @default 100
    */
   borderRadius?: number;
-}
+};
 
-export const DEFAULT_HEIGHT = 70;
-const DEFAULT_WIDTH = Dimensions.get('window').width * 0.9;
-const DEFAULT_BORDER_RRADIUS = DEFAULT_HEIGHT / 2;
-const DEFAULT_COMPLETE_THRESHOLD_PERCENTAGE = 70;
+const DEFAULT_HEIGHT = 70;
+const DEFAULT_BORDER_RADIUS = 100;
+const DEFAULT_COMPLETE_THRESHOLD_PERCENTAGE = 100;
 
 const SwipeButton = ({
-    height = DEFAULT_HEIGHT, width = DEFAULT_WIDTH, borderRadius = DEFAULT_BORDER_RRADIUS,
-    title, titleContainerProps, titleProps, titleContainerStyle, titleStyle,
-    completeThresholdPercentage = DEFAULT_COMPLETE_THRESHOLD_PERCENTAGE,
-    underlayStyle, disabled, Icon, containerStyle,
-    onComplete, onSwipeEnd = () => {}, onSwipeStart = () => {},
+  height = DEFAULT_HEIGHT,
+  borderRadius = DEFAULT_BORDER_RADIUS,
+  title,
+  titleContainerProps,
+  titleProps,
+  titleContainerStyle,
+  titleStyle,
+  completeThresholdPercentage = DEFAULT_COMPLETE_THRESHOLD_PERCENTAGE,
+  underlayStyle,
+  disabled,
+  Icon,
+  iconContainerStyle,
+  containerStyle,
+  onComplete,
+  onSwipeEnd = () => {},
+  onSwipeStart = () => {},
 }: SwipeButtonProps) => {
+  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+  const [endReached, setEndReached] = useState<boolean>(false);
+  const opacity = disabled ? 0.5 : 1;
+  const [translateX] = useState<Animated.Value>(new Animated.Value(0));
+  const scrollDistance =
+    dimensions.width - completeThresholdPercentage / 100 - dimensions.height;
+  const completeThreshold =
+    scrollDistance * (completeThresholdPercentage / 100);
 
-    const [endReached, setEndReached] = useState<boolean>(false);
-    const opacity = disabled ? 0.5 : 1;
-    const opacityStyle = { opacity };
-    const [translateX] = useState<Animated.Value>(new Animated.Value(0));
-    const scrollDistance = width - (completeThresholdPercentage / 100) - height;
-    const completeThreshold = scrollDistance * (completeThresholdPercentage / 100);
+  const onLayoutContainer = async (e: LayoutChangeEvent) => {
+    const { width, height } = e.nativeEvent.layout;
+    setDimensions({ width, height });
+  };
 
-    const animateToStart = () => {
-        Animated.spring(translateX, { toValue: 0, tension: 10, friction: 5, useNativeDriver: false }).start();
+  const animateToStart = () => {
+    Animated.spring(translateX, {
+      toValue: 0,
+      tension: 10,
+      friction: 5,
+      useNativeDriver: false,
+    }).start();
 
-        return setEndReached(false);
-    };
+    return setEndReached(false);
+  };
 
-    const animateToEnd = () => {
-        onComplete();
-        Animated.spring(translateX, { toValue: scrollDistance, tension: 10, friction: 5, useNativeDriver: false }).start();
+  const animateToEnd = () => {
+    onComplete();
+    Animated.spring(translateX, {
+      toValue: scrollDistance,
+      tension: 10,
+      friction: 5,
+      useNativeDriver: false,
+    }).start();
 
-        return setEndReached(true);
-    };
+    return setEndReached(true);
+  };
 
-    const onMove = (_: GestureResponderEvent, gestureState: PanResponderGestureState) => {
-        if (disabled) {
-            return false;
-        }
+  const onMove = (
+    _: GestureResponderEvent,
+    gestureState: PanResponderGestureState
+  ) => {
+    if (disabled) {
+      return false;
+    }
 
-        if (gestureState.dx < 0 || gestureState.dx > scrollDistance) {
-            return Animated.event([{ dx: translateX }], { useNativeDriver: false })({
-                ...gestureState,
-                dx: gestureState.dx < 0 ? 0 : scrollDistance,
-            });
-        }
-        
-        return Animated.event([{ dx: translateX }], { useNativeDriver: false })(gestureState);
-    };
+    if (gestureState.dx < 0 || gestureState.dx > scrollDistance) {
+      return Animated.event([{ dx: translateX }], { useNativeDriver: false })({
+        ...gestureState,
+        dx: gestureState.dx < 0 ? 0 : scrollDistance,
+      });
+    }
 
-    const onRelease = () => {
-        if (disabled) {
-            return;
-        }
+    return Animated.event([{ dx: translateX }], { useNativeDriver: false })(
+      gestureState
+    );
+  };
 
-        if (endReached) {
-            return animateToStart();
-        }
+  const onRelease = () => {
+    if (disabled) {
+      return;
+    }
 
-        const isCompleted = translateX._value! >= completeThreshold;
-        
-        return isCompleted
-            ? animateToEnd()
-            : animateToStart();
-    };
+    if (endReached) {
+      return animateToStart();
+    }
 
-    const panResponser = () => PanResponder.create({
-        onPanResponderGrant: onSwipeStart,
-        onPanResponderEnd: onSwipeEnd,
-        onStartShouldSetPanResponder: () => false,
-        onMoveShouldSetPanResponder: () => true,
-        onMoveShouldSetPanResponderCapture: () => false,
-        onPanResponderMove: onMove,
-        onPanResponderRelease: onRelease,
+    const isCompleted = translateX._value! >= completeThreshold;
+
+    return isCompleted ? animateToEnd() : animateToStart();
+  };
+
+  const panResponser = () =>
+    PanResponder.create({
+      onPanResponderGrant: onSwipeStart,
+      onPanResponderEnd: onSwipeEnd,
+      onStartShouldSetPanResponder: () => false,
+      onMoveShouldSetPanResponder: () => true,
+      onMoveShouldSetPanResponderCapture: () => false,
+      onPanResponderMove: onMove,
+      onPanResponderRelease: onRelease,
     });
 
-    return (
-        <View style={[
-            styles.container,
-            opacityStyle,
-            containerStyle,
-            { height, width, borderRadius },
+  return (
+    <View
+      style={[
+        styles.container,
+        { opacity },
+        containerStyle,
+        { height, borderRadius },
+      ]}
+      onLayout={onLayoutContainer}
+    >
+      <SwipeButtonText
+        title={title}
+        titleStyle={titleStyle}
+        titleProps={titleProps}
+        height={height}
+        titleContainerProps={titleContainerProps}
+        titleContainerStyle={titleContainerStyle}
+      />
+
+      <Animated.View
+        testID="Underlay"
+        style={[
+          styles.underlayContainer,
+          underlayStyle,
+          {
+            width: translateX.interpolate({
+              inputRange: [0 - height / 2, dimensions.width],
+              outputRange: [height / 2, dimensions.width + height],
+            }),
+            height,
+            borderRadius,
+          },
         ]}
-        >
+      />
 
-            <SwipeButtonText
-                title={title}
-                titleStyle={titleStyle}
-                titleProps={titleProps}
-                height={height}
-                titleContainerProps={titleContainerProps}
-                titleContainerStyle={titleContainerStyle}
-            />
-
-            {!disabled && <Animated.View
-                testID="Underlay"
-                style={[
-                    styles.underlayContainer,
-                    underlayStyle,
-                    {
-                        width: translateX.interpolate({ inputRange: [0, 100], outputRange: [31, 131] }),
-                        height,
-                    },
-                ]}
-            />}
-
-            <SwipeButtonCircle
-                Icon={Icon}
-                opacity={opacity}
-                panHandlers={panResponser().panHandlers}
-                translateX={translateX}
-                borderRadius={borderRadius}
-                height={height}
-            />
-
-        </View>
-    );
+      <SwipeButtonCircle
+        Icon={Icon}
+        panHandlers={panResponser().panHandlers}
+        translateX={translateX}
+        borderRadius={borderRadius}
+        height={height}
+        iconContainerStyle={iconContainerStyle}
+      />
+    </View>
+  );
 };
 
 export default SwipeButton;
 
 const styles = StyleSheet.create({
-    container: {
-        backgroundColor: 'rgba(255, 255, 255, 0.1)',
-        alignSelf: 'center',
-        justifyContent: 'center',
-        marginVertical: 10,
-    },
-    underlayContainer: {
-        position: 'absolute',
-        backgroundColor: '#152228',
-    },
+  container: {
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
+    alignSelf: "center",
+    justifyContent: "center",
+    width: "100%",
+    height: DEFAULT_HEIGHT,
+    borderRadius: DEFAULT_BORDER_RADIUS,
+    overflow: "hidden",
+  },
+  underlayContainer: {
+    position: "absolute",
+    backgroundColor: "#152228",
+  },
 });
