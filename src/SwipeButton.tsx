@@ -78,7 +78,7 @@ const SwipeButton = ({
     height = DEFAULT_HEIGHT, width = DEFAULT_WIDTH, borderRadius = DEFAULT_BORDER_RRADIUS,
     title, titleContainerProps, titleProps, titleContainerStyle, titleStyle,
     completeThresholdPercentage = DEFAULT_COMPLETE_THRESHOLD_PERCENTAGE,
-    underlayStyle, disabled, Icon, containerStyle,
+    underlayStyle, disabled, Icon, containerStyle, circleBackgroundColor,
     onComplete, onSwipeEnd = () => {}, onSwipeStart = () => {},
 }: SwipeButtonProps) => {
 
