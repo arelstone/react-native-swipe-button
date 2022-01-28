@@ -138,7 +138,7 @@ const SwipeButton = ({
         if (endReached) {
             return animateToStart();
         }
-
+        // @ts-expect-error comment
         const isCompleted = translateX._value! >= completeThreshold;
         
         return isCompleted
