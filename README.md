@@ -36,3 +36,4 @@ yarn add @arelstone/react-native-swipe-button
 | titleProps | TextProps | Additonal Props for the title text |
 | titleStyle | StyleProp<TextStyle> | Styling for the title text |
 | circleBackgroundColor | string | Background color for the circle |
+| goBackToStart | bololean | If set to TRUE, after swipe is completed, the circle goes back to the start position |
