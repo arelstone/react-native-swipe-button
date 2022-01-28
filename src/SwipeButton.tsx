@@ -67,18 +67,27 @@ export type SwipeButtonCommonProps = {
    * @default (height / 2)
    */
   borderRadius?: number;
+
+  /**
+   * If true, the circle will scroll back to the start position after swipe is completed
+   * 
+   * @default false
+   */
+   goBackToStart?: boolean;
+
 }
 
 export const DEFAULT_HEIGHT = 70;
 const DEFAULT_WIDTH = Dimensions.get('window').width * 0.9;
 const DEFAULT_BORDER_RRADIUS = DEFAULT_HEIGHT / 2;
 const DEFAULT_COMPLETE_THRESHOLD_PERCENTAGE = 70;
+const DEFAULT_GO_BACK_TO_START = false;
 
 const SwipeButton = ({
     height = DEFAULT_HEIGHT, width = DEFAULT_WIDTH, borderRadius = DEFAULT_BORDER_RRADIUS,
     title, titleContainerProps, titleProps, titleContainerStyle, titleStyle,
     completeThresholdPercentage = DEFAULT_COMPLETE_THRESHOLD_PERCENTAGE,
-    underlayStyle, disabled, Icon, containerStyle, circleBackgroundColor,
+    underlayStyle, disabled, Icon, containerStyle, circleBackgroundColor, goBackToStart = DEFAULT_GO_BACK_TO_START,
     onComplete, onSwipeEnd = () => {}, onSwipeStart = () => {},
 }: SwipeButtonProps) => {
 
@@ -99,6 +108,10 @@ const SwipeButton = ({
         onComplete();
         Animated.spring(translateX, { toValue: scrollDistance, tension: 10, friction: 5, useNativeDriver: false }).start();
 
+        if(goBackToStart){
+            setEndReached(true);
+            return animateToStart();
+        }
         return setEndReached(true);
     };
 
@@ -174,6 +187,7 @@ const SwipeButton = ({
             />}
 
             <SwipeButtonCircle
+                circleBackgroundColor={circleBackgroundColor}
                 Icon={Icon}
                 opacity={opacity}
                 panHandlers={panResponser().panHandlers}
