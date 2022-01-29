@@ -108,10 +108,12 @@ const SwipeButton = ({
         onComplete();
         Animated.spring(translateX, { toValue: scrollDistance, tension: 10, friction: 5, useNativeDriver: false }).start();
 
-        if(goBackToStart){
+        if (goBackToStart) {
             setEndReached(true);
+
             return animateToStart();
         }
+
         return setEndReached(true);
     };
 
@@ -138,7 +140,9 @@ const SwipeButton = ({
         if (endReached) {
             return animateToStart();
         }
-        // @ts-expect-error comment
+
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error ignore this
         const isCompleted = translateX._value! >= completeThreshold;
         
         return isCompleted
