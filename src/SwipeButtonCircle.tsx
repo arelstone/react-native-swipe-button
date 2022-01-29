@@ -22,9 +22,14 @@ export interface SwipeButtonCircleProps extends SwipeButtonCommonProps {
      * Determinates the value of the button
      */
     translateX: Animated.Value;
+  
+     /**
+     * Background color for the circle 
+     */
+    circleBackgroundColor?: string;
 }
 
-const SwipeButtonCircle = ({ Icon, opacity, panHandlers, translateX, height, borderRadius }: SwipeButtonCircleProps) => {
+const SwipeButtonCircle = ({ Icon, opacity, panHandlers, translateX, height, borderRadius, circleBackgroundColor }: SwipeButtonCircleProps) => {
     return (
         <Animated.View
             testID="Button"
@@ -45,6 +50,7 @@ const SwipeButtonCircle = ({ Icon, opacity, panHandlers, translateX, height, bor
                 style={[
                     styles.innerIconContainer,
                     {
+                        backgroundColor: circleBackgroundColor,
                         width: height,
                         height,
                         borderRadius,
