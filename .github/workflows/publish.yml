@@ -16,7 +16,7 @@ jobs:
       - name: Test
         run: npm run test
       - name: Build
-      - run: npm run build
+        run: npm run build
       - name: Commit changes
         uses: EndBug/add-and-commit@v8
         with:
