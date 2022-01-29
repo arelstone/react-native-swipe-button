@@ -10,7 +10,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - name: Set up Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{inputs.node-version}}
+          registry-url: ${{inputs.registry-url}}
+        
+      - name: Set up GitHub package registry auth token
+        run: npm config set //npm.pkg.github.com/:_authToken=${{ inputs.token }}
+        shell: bash
+
+      - name: Cache dependencies
+        id: cache-deps
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
+      - name: Install dependencies
         run: npm install
       - name: Lint
         run: npm run lint
