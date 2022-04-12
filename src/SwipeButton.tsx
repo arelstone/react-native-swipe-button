@@ -83,7 +83,7 @@ const DEFAULT_BORDER_RRADIUS = DEFAULT_HEIGHT / 2;
 const DEFAULT_COMPLETE_THRESHOLD_PERCENTAGE = 70;
 const DEFAULT_GO_BACK_TO_START = false;
 
-const SwipeButton = ({
+export const SwipeButton = ({
     height = DEFAULT_HEIGHT, width = DEFAULT_WIDTH, borderRadius = DEFAULT_BORDER_RRADIUS,
     title, titleContainerProps, titleProps, titleContainerStyle, titleStyle,
     completeThresholdPercentage = DEFAULT_COMPLETE_THRESHOLD_PERCENTAGE,
@@ -203,8 +203,6 @@ const SwipeButton = ({
         </View>
     );
 };
-
-export default SwipeButton;
 
 const styles = StyleSheet.create({
     container: {
