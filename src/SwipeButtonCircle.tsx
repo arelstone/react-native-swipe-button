@@ -16,7 +16,7 @@ export interface SwipeButtonCircleProps extends SwipeButtonCommonProps {
     /**
      * Element that should be displaied inside the button
      */
-    Icon: ReactNode;
+    Icon: JSX.Element;
 
     /**
      * Determinates the value of the button

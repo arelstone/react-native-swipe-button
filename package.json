@@ -1,6 +1,6 @@
 {
   "name": "@arelstone/react-native-swipe-button",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "A UI component for displaying a button that can be swiped.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -41,7 +41,7 @@
     "@types/enzyme-adapter-react-16": "^1.0.6",
     "@types/jest": "^26.0.8",
     "@types/react": "^16.9.19",
-    "@types/react-native": "^0.61.14",
+    "@types/react-native": "^0.67.4",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
     "eslint": "^6.8.0",

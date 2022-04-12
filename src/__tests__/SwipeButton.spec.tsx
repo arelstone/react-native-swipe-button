@@ -23,10 +23,6 @@ describe('<SwipeButton />', () => {
         expect(wrapper.find('SwipeButtonText').exists()).toBeTruthy();
     });
 
-    it('should containe SwipeButtonCircle', () => {
-        expect(wrapper.find('SwipeButtonCircle').exists()).toBeTruthy();
-    });
-    
     describe('disabled', () => {
         beforeAll(()=>{
             wrapper.setProps({ disabled: true });

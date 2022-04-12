@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { View, Text, Alert } from 'react-native';
-import SwipeButton from '../src/SwipeButton';
+import { SwipeButton } from '../src/SwipeButton';
 
 const App = () => {
     return (

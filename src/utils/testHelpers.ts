@@ -2,7 +2,7 @@
 import { ShallowWrapper } from 'enzyme';
 import { Platform } from 'react-native';
 
-export const findElementByTestId = (Component: any, testID: string, wrapper: ShallowWrapper) => {
+export const findElementByTestId = (Component: any, testID: string, wrapper: ShallowWrapper): ShallowWrapper => {
     return wrapper.find(Component).findWhere((n: any) => n.prop('testID') === testID);
 };
 
