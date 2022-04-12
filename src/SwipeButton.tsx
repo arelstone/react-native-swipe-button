@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Dimensions, Animated, PanResponder, GestureResponderEvent, PanResponderGestureState, StyleSheet, StyleProp, ViewStyle } from 'react-native';
 
-import SwipeButtonCircle, { SwipeButtonCircleProps } from './SwipeButtonCircle';
+import { SwipeButtonCircle, SwipeButtonCircleProps } from './SwipeButtonCircle';
 import SwipeButtonText, { SwipeButtonTextProps } from './SwipeButtonText';
 
 type SwipeButtonPropsExtends = SwipeButtonCommonProps

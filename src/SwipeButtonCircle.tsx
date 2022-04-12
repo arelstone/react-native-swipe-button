@@ -29,7 +29,9 @@ export interface SwipeButtonCircleProps extends SwipeButtonCommonProps {
     circleBackgroundColor?: string;
 }
 
-const SwipeButtonCircle = ({ Icon, opacity, panHandlers, translateX, height, borderRadius, circleBackgroundColor }: SwipeButtonCircleProps) => {
+export const SwipeButtonCircle = ({
+    Icon, opacity, panHandlers, translateX, height, borderRadius, circleBackgroundColor,
+}: SwipeButtonCircleProps) => {
     return (
         <Animated.View
             testID="Button"
@@ -63,8 +65,6 @@ const SwipeButtonCircle = ({ Icon, opacity, panHandlers, translateX, height, bor
         </Animated.View>
     );
 };
-
-export default SwipeButtonCircle;
 
 const styles = StyleSheet.create({
     iconContainer: {
