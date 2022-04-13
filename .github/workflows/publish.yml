@@ -40,7 +40,7 @@ jobs:
       - name: Set up package registry auth token
         run: npm config set //registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}
       - name: Publish to NPM
-        run: yarn publish --access public
+        run: npm publish --access public
       - name: Extract version from package.json
         id: extract_version
         uses: Saionaro/extract-package-version@v1.1.1
