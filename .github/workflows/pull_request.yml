@@ -11,56 +11,26 @@ jobs:
     steps:
       - uses: paralenz/actions/gitmoji@v2.1.1
 
-  setup:
+  main:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-
       - name: Set up Node
         uses: actions/setup-node@v3
         with:
           node-version: 16
-
       - name: Cache dependencies
         id: cache-deps
         uses: actions/cache@v3
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-
       - name: Install dependencies
         run: yarn install --frozen-lockfile --ignore-scripts
-    
-  build:
-    name: Run tsc
-    runs-on: ubuntu-latest
-    needs: [setup]
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile --ignore-scripts
-      - run: yarn build
-    
-  linting:
-    name: Run linting
-    runs-on: ubuntu-latest
-    needs: [setup]
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile --ignore-scripts
-      - run: yarn lint
-  
-  testing:
-    name: Run testing
-    runs-on: ubuntu-latest
-    needs: [setup]
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile --ignore-scripts
-      - run: yarn test
+      - name: Build
+        run: yarn build
+      - name: Linting
+        run: yarn lint
+      - name: Testing
+        run: yarn test
       
