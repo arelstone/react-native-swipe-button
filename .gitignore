@@ -2,3 +2,6 @@ node_modules
 .jest
 coverage
 dist
+*.tgz
+.env*
+.DS_Store

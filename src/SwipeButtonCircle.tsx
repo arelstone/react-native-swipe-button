@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { GestureResponderHandlers, Animated, StyleSheet } from 'react-native';
 import { SwipeButtonCommonProps } from './SwipeButton';
 

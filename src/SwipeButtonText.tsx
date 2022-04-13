@@ -11,7 +11,7 @@ export interface SwipeButtonTextProps extends Omit<SwipeButtonCommonProps, 'bord
   /**
    * Additional props for the title text
    */
-    titleProps?: any;
+    titleProps?: TextProps;
 
   /**
    * Additional styling for the title text
@@ -21,7 +21,7 @@ export interface SwipeButtonTextProps extends Omit<SwipeButtonCommonProps, 'bord
   /**
    * Additional props for the title container
    */
-    titleContainerProps?: any;
+    titleContainerProps?: ViewProps;
 
   /**
    * Additional styling for the title container
@@ -44,7 +44,6 @@ const SwipeButtonText = ({
             {...titleContainerProps}
         >
             <Text
-                handleTextAreaUpdate={() => { }}
                 numberOfLines={2}
                 allowFontScaling={false}
                 style={[styles.title, titleStyle]}
