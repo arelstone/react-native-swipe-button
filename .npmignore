@@ -1,6 +1,15 @@
+!/dist
+
 src
 coverage
+docs
+
 .github
 jest.setup.js
 tsconfig.jest.json
 tsconfig.json
+.vscode
+*.config.js
+.eslintrc
+.env*
+

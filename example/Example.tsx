@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { View, Text, Alert } from 'react-native';
 import { SwipeButton } from '../src/SwipeButton';
 
-const App = () => {
+const App: FC = () => {
     return (
         <View style={{ flex: 1 }}>
             <SwipeButton

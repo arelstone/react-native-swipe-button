@@ -42,16 +42,16 @@ jobs:
         run: yarn install --frozen-lockfile --ignore-scripts
       - run: yarn build
     
-  # linting:
-  #   name: Run linting
-  #   runs-on: ubuntu-latest
-  #   needs: [setup]
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #     - uses: actions/setup-node@v3
-  #     - name: Install dependencies
-  #       run: yarn install --frozen-lockfile --ignore-scripts
-  #     - run: yarn lint
+  linting:
+    name: Run linting
+    runs-on: ubuntu-latest
+    needs: [setup]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --ignore-scripts
+      - run: yarn lint
   
   testing:
     name: Run testing
