@@ -1,9 +1,9 @@
-import React, { ComponentProps } from 'react';
+import React from 'react';
 import { ShallowWrapper, shallow } from 'enzyme';
 import { SwipeButton } from '../SwipeButton';
 import { Text, View } from 'react-native';
 
-let wrapper: ShallowWrapper<ComponentProps<typeof SwipeButton>>;
+let wrapper: ShallowWrapper;
 const mockOnComplete = jest.fn();
 
 describe('<SwipeButton />', () => {
@@ -16,12 +16,16 @@ describe('<SwipeButton />', () => {
     });
 
     it('should match snapshot', () => {
+
+
+
         expect(wrapper).toMatchSnapshot();
     });
 
     it('should containe SwipeButtonText', () => {
         expect(wrapper.find('SwipeButtonText').exists()).toBeTruthy();
     });
+
 
     describe('disabled', () => {
         beforeAll(()=>{

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { GestureResponderHandlers, Animated, StyleSheet } from 'react-native';
 import { SwipeButtonCommonProps } from './SwipeButton';
 
@@ -29,9 +29,9 @@ export interface SwipeButtonCircleProps extends SwipeButtonCommonProps {
     circleBackgroundColor?: string;
 }
 
-export const SwipeButtonCircle = ({
+export const SwipeButtonCircle: FC<SwipeButtonCircleProps> = ({
     Icon, opacity, panHandlers, translateX, height, borderRadius, circleBackgroundColor,
-}: SwipeButtonCircleProps) => {
+}) => {
     return (
         <Animated.View
             testID="Button"

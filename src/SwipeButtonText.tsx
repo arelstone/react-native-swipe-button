@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { View, Text, TextProps, StyleProp, TextStyle, ViewProps, ViewStyle, StyleSheet } from 'react-native';
-import { DEFAULT_HEIGHT, SwipeButtonCommonProps } from './SwipeButton';
+import { DEFAULT_HEIGHT } from './constants';
+import { SwipeButtonCommonProps } from './SwipeButton';
 
 export interface SwipeButtonTextProps extends Omit<SwipeButtonCommonProps, 'borderRadius'> {
   /**
@@ -29,9 +30,9 @@ export interface SwipeButtonTextProps extends Omit<SwipeButtonCommonProps, 'bord
   titleContainerStyle?: StyleProp<ViewStyle>;
 }
 
-const SwipeButtonText = ({
+const SwipeButtonText: FC<SwipeButtonTextProps> = ({
     title, titleStyle, titleContainerProps, titleContainerStyle, titleProps, height = DEFAULT_HEIGHT,
-}: SwipeButtonTextProps) => {
+}) => {
     return (
         <View
 

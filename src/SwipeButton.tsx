@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { View, Dimensions, Animated, PanResponder, GestureResponderEvent, PanResponderGestureState, StyleSheet, StyleProp, ViewStyle } from 'react-native';
+import React, { FC, useState } from 'react';
+import { View, Animated, PanResponder, GestureResponderEvent, PanResponderGestureState, StyleSheet, StyleProp, ViewStyle } from 'react-native';
+import { DEFAULT_BORDER_RRADIUS, DEFAULT_COMPLETE_THRESHOLD_PERCENTAGE, DEFAULT_GO_BACK_TO_START, DEFAULT_HEIGHT, DEFAULT_WIDTH } from './constants';
 
 import { SwipeButtonCircle, SwipeButtonCircleProps } from './SwipeButtonCircle';
 import SwipeButtonText, { SwipeButtonTextProps } from './SwipeButtonText';
@@ -77,24 +78,18 @@ export type SwipeButtonCommonProps = {
 
 }
 
-export const DEFAULT_HEIGHT = 70;
-const DEFAULT_WIDTH = Dimensions.get('window').width * 0.9;
-const DEFAULT_BORDER_RRADIUS = DEFAULT_HEIGHT / 2;
-const DEFAULT_COMPLETE_THRESHOLD_PERCENTAGE = 70;
-const DEFAULT_GO_BACK_TO_START = false;
-
-export const SwipeButton = ({
+export const SwipeButton: FC<SwipeButtonProps> = ({
     height = DEFAULT_HEIGHT, width = DEFAULT_WIDTH, borderRadius = DEFAULT_BORDER_RRADIUS,
     title, titleContainerProps, titleProps, titleContainerStyle, titleStyle,
     completeThresholdPercentage = DEFAULT_COMPLETE_THRESHOLD_PERCENTAGE,
     underlayStyle, disabled, Icon, containerStyle, circleBackgroundColor, goBackToStart = DEFAULT_GO_BACK_TO_START,
     onComplete, onSwipeEnd = () => {}, onSwipeStart = () => {},
-}: SwipeButtonProps) => {
+}) => {
 
     const [endReached, setEndReached] = useState<boolean>(false);
     const opacity = disabled ? 0.5 : 1;
     const opacityStyle = { opacity };
-    const [translateX] = useState<Animated.Value>(new Animated.Value(0));
+    const [translateX] = useState<Animated.Value & { _value?: number; }>(new Animated.Value(0));
     const scrollDistance = width - (completeThresholdPercentage / 100) - height;
     const completeThreshold = scrollDistance * (completeThresholdPercentage / 100);
 
@@ -141,8 +136,6 @@ export const SwipeButton = ({
             return animateToStart();
         }
 
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error ignore this
         const isCompleted = translateX._value! >= completeThreshold;
         
         return isCompleted
